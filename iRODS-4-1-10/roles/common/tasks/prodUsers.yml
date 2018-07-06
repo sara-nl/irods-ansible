@@ -1,0 +1,45 @@
+---
+
+- name: Creating dsadmin group
+  group:
+    name: dsadmin
+    state: present
+    system: true
+  
+- name: Checking account- matthews
+  user:
+    name: "{{ item }}"
+    groups: dsadmin
+    append: yes
+    loop:
+    - matthews
+    - jurriaan
+    - robertv
+    - sharifi
+
+- name: Checking sudoers for the DSadmin group
+  blockinfile:
+    path: /etc/sudoers
+    marker: "# {mark} ANSIRODS Managed block "
+    marker_begin: BEGIN
+    marker_end: END
+    block: |
+      # X Forwarding
+      Defaults            env_keep += "DISPLAY X_MAGIC_COOKIE"
+      # Git config
+      Defaults            env_keep += "GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL GIT_COMMITTER_NAME GIT_COMMITTER_EMAIL"
+      # SSH forwardagent
+      Defaults            env_keep += "SSH_AUTH_SOCK"
+      #Sudo failure email enables
+      Defaults mail_badpass 
+      Defaults mail_no_perms
+      Defaults mail_no_user 
+      #dsadmin users granted sudo
+      %dsadmin   ALL=(ALL)       ALL
+  
+
+- name: Adding a .forward to root for ds-sys@lists.surfsara.nl
+  lineinfile:
+    path: /root/.forward 
+    line: 'ds-sys@lists.surfsara.nl' 
+    create: true

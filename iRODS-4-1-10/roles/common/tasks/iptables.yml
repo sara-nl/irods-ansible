@@ -1,0 +1,58 @@
+---
+#-------------------------------------------
+#IPTables Policy updates and purging
+#-------------------------------------------
+#IPTables default input accept for policy
+- name: IPtables INPUT accept
+  iptables: 
+    chain: INPUT 
+    policy: ACCEPT
+#Default forward deny
+- name: IPTables FORWARD Deny
+  iptables: 
+    chain: FORWARD 
+    policy: DROP
+#default output accept
+- name: IPTables OUTPUT accept
+  iptables: 
+    chain: OUTPUT 
+    policy: ACCEPT
+#Remove current "deny all" rule    
+- name: IPTables Remove deny all
+  iptables: 
+    chain: INPUT
+    jump: DROP
+    state: absent
+#Permit already existing connections
+- name: IPTables INPUT established/related acceptance
+  iptables: 
+    chain: INPUT 
+    ctstate: ESTABLISHED,RELATED 
+    jump: ACCEPT
+#permit loopback traffic
+- name: IPTables All loopback ACCEPTed
+  iptables: 
+    chain: INPUT 
+    in_interface: lo 
+    jump: ACCEPT
+#permit input on tcp22
+- name: IPTables INPUT 22 appended
+  iptables: 
+    chain: INPUT 
+    protocol: TCP 
+    destination_port: 22 
+    jump: ACCEPT
+#permint incoming ICMP (ping)
+- name: IPTables INPUT ICMP
+  iptables: 
+    chain: INPUT 
+    protocol: ICMP 
+    jump: ACCEPT
+#Appent a last slot of deny all other input traffic from external sources.
+- name: IPTABLES INPUT Default Drop
+  iptables: 
+    chain: INPUT 
+    jump: DROP
+ #Save the iptables (can't use the "service" module on this one sadly) for Centos
+- name: IPTables Save
+  command: "/sbin/service iptables save"

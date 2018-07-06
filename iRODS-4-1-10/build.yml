@@ -1,0 +1,15 @@
+---
+
+- name: AnsiBuild v0.1
+  hosts: all
+  remote_user: "admincentos"
+  become: true
+  vars:
+    target: 192.168.1.1
+    serviceable: 0
+    setup: 0
+    fwd: 0
+    svrName: "{{target}}"
+  roles:
+  - common
+#  - irods
