@@ -1,4 +1,0 @@
----
-svrName: "{{target}}"
-fwd: 0
-setup: 0
