@@ -1,0 +1,47 @@
+---
+#Our ICAT Server tasks are here
+#------------------------------
+#These are all PGSQL related tasks
+#------------------------------
+#Installing a postgreSQL server on CentOS
+- name: Installing postgresql-server
+  yum: 
+    name: postgresql-server
+    state: latest
+
+#Installing a postgreSQL python module for ansible interaction
+- name: Installing python-psycopg2
+  yum: 
+    name: python-psycopg2 
+    state: latest
+
+#Initialize the database if needed for CentOS
+- name: Initializing PGSQL database
+  command: "/usr/bin/postgresql-setup initdb"
+  args:
+    creates: /var/lib/pgsql/data/pg_hba.conf
+
+#Fix the pg_hba.conf file to allow localhost password authentication on CentOS
+- name: Fixing pg_hba.conf to permit localhost password authentication
+  lineinfile: 
+    name: /var/lib/pgsql/data/pg_hba.conf 
+    regexp: "host    all             all             127.0.0.1/32            ident" 
+    line: "host    all             all             127.0.0.1/32            md5"
+    backrefs: true
+
+#start/restart the PGSQL server
+- name: Starting PGSQL
+  systemd: name=postgresql state=restarted
+
+#Create irods database (by sudo SUing into the Postgres default account)
+- name: Becoming postgres account and creating database IRODS
+  become_method: sudo
+  become_user: postgres
+  postgresql_db: name=ICAT
+
+#Creating the irods PGSQL user and granting privileges
+- name: Creating irods sql user and granting privileges
+  become_method: sudo
+  become_user: postgres
+  postgresql_user: name="{{dbAcnt}}" password="{{dbPwd}}" db=ICAT priv=ALL
+

@@ -1,0 +1,48 @@
+[common]
+#145.100.58.91 setup=1 svrType="icat"
+#145.100.58.204 setup=1 svrType="resc" rescICAT="145.100.58.91"
+#145.100.57.2 setup=1 svrType="icat"
+#145.100.57.1 setup=1 svrType="resc" rescICAT="145.100.57.2"
+
+
+
+
+
+
+
+
+
+[common:vars]
+#These common variables can be overwritten on server-by-server
+#basis. Just re-define them in a line specifically associate to each host below.
+
+#The ansible user to ssh as
+ansible_user=admincentos
+
+#IPtables = 0, firewalld = 1
+fwd=0
+ 
+
+#Production Service Machine? If 1, will set up LDAP admin accounts
+serviceable=0
+
+#Setup iRODS (and pgsql if applicable)? If 1, will use default values below
+setup=0
+
+#Default PGSQL setup options
+dbName="ICAT"      #Database Name
+dbAcnt="irods"     #Database Username
+dbPwd="irods"      #Database Password
+
+#Default iRODS setup info
+svcAcnt="irods"      #serviceaccount
+iAcnt="rods"         #rods admin account
+iPwd="rods"          #rods admin password
+iZone="tempZone"     #irods zone
+iDBsvr="127.0.0.1"   #iRODS Database Server
+iDBname="{{dbName}}" #iRODS Database Name
+iDBacnt="{{dbAcnt}}" #iRODS Database Username
+iDBpwd="{{dbPwd}}"   #iRODS Database Password
+
+#Resource Server Only Variables
+rescICAT="1.1.1.1"   #iCAT Server IP/FQDN

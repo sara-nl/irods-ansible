@@ -1,0 +1,27 @@
+---
+#---------------------------------------
+#These are all iRODS related tasks
+#---------------------------------------
+#Installing PIP
+- name: install pip
+  yum: 
+    name: python2-pip
+    state: present
+#Installing Python Expect plugin
+- name: install python expect plugin
+  pip: 
+    name: pexpect
+    
+#IP tables or FirewallD
+# the fwd variable determines this.
+- include: iptables.yml
+  when: fwd == 0
+
+
+
+- include: pgsql.yml
+  when: svrType == "icat"
+- include: icat.yml
+  when: svrType == "icat"
+- include: resc.yml
+  when: svrType == "resc"
