@@ -1,9 +1,7 @@
 [common]
-#145.100.58.91 setup=1 svrType="icat"
-#145.100.58.204 setup=1 svrType="resc" rescICAT="145.100.58.91"
-#145.100.57.2 setup=1 svrType="icat"
-#145.100.57.1 setup=1 svrType="resc" rescICAT="145.100.57.2"
-
+#EXAMPLE
+#192.168.1.1 setup=1 svrType="icat" 
+#192.168.1.2 setup=1 svrType="resc" rescICAT="192.168.1.1"
 
 
 
@@ -35,6 +33,7 @@ dbAcnt="irods"     #Database Username
 dbPwd="irods"      #Database Password
 
 #Default iRODS setup info
+svrType="icat"       #iRODS Server Type
 svcAcnt="irods"      #serviceaccount
 iAcnt="rods"         #rods admin account
 iPwd="rods"          #rods admin password
