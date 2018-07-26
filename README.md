@@ -38,7 +38,7 @@ And lastly, if the server is a Resoruce server defined above, you must point to 
 1. Cone the repository
 ```
 git clone https://git.ia.surfsara.nl/data-management-services/ansible
-cd ansible
+cd ansible/iRODS-4-X-X
 ```
 2. Configure your host file with the correct information
 ```
