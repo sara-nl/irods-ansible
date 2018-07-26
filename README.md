@@ -1,1 +1,13 @@
-This will be the master repository for my cleaned up ansible playbooks. It is currently NOT a master working branch, so do not attempt to use it. 
+iRODS 4.1.10 Formation Playbooks.
+
+System Requirements:
+- CentOS7.x
+- Internet Connection
+- Ansible account configured (ansible/ansiRods)
+
+Operator Requirements:
+- IP addresses of machines in formation
+- Access to ansible account on machine
+- This ansible playbook
+
+
