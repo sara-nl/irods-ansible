@@ -1,15 +1,15 @@
 [common]
 #--------------------------------------------------------
 #EXAMPLE HOST LINES
-#192.168.1.1 setup=1 svrType="icat" 
-#192.168.1.2 setup=1 svrType="resc" rescICAT="192.168.1.1"
-#192.168.1.3 setup=1 svrType="icat" iPwd="P@$$w0rd"
+#192.168.1.1 svrType="icat" 
+#192.168.1.2 svrType="resc" rescICAT="192.168.1.1"
+#192.168.1.3 svrType="icat" iPwd="P@$$w0rd"
 #--------------------------------------------------------
 #Enter your hosts below this line:
 
-145.100.58.13 setup=1 svrType="icat" 
-145.100.58.19 setup=1 svrType="resc" rescICAT="145.100.58.13"
-145.100.58.243 setup=1 svrType="resc" rescICAT="145.100.58.13"
+145.100.58.13  
+145.100.58.19 svrType="resc" rescICAT="145.100.58.13"
+145.100.58.243 svrType="resc" rescICAT="145.100.58.13"
 
 
 
@@ -33,7 +33,7 @@ fwd=0
 serviceable=0
 
 #Setup iRODS (and pgsql if applicable)? If 1, will use default values below
-setup=0
+setup=1
 
 #Default PGSQL setup options
 dbName="ICAT"      #Database Name
