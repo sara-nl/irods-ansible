@@ -7,32 +7,24 @@
 
 ## Operator Requirements:
 - IP addresses of machines in formation
-- Access to ansible account on machine
-- This ansible playbook
+- Passwordless access to a sudo account on machines
 
 ## Overview
-The most important file to operate this is the "hosts" file. This file contains all of the definitions and options used during machine setup. An exampe looks like this:
+The most important file to operate this is the "hosts" file. This file contains all of the definitions and options used during machine setup. An example entry looks like this:
 ```
-145.100.58.13 setup=1 svrType="icat"
-145.100.58.19 setup=1 svrType="resc" rescICAT="145.100.58.13"
-145.100.58.20 setup=1 svrType="icat"
-145.100.58.243 setup=1 svrType="resc" rescICAT="145.100.58.20"
-145.100.58.68 setup=1 svrType="resc" rescICAT="145.100.58.20"
+145.100.58.13
 ```
+**NOTE:** Only one host machine per line.
 
-The only truly required variables are listed above, they are:
-- setup
-- svrType
-- rescICAT
+However, we can configure multiple servers with some customized options. This example creates two machines, an iCAT and a Resource server:
 
-If setup is set to 1, it will install and configure irods for you using predefined variables. 
+```
+145.100.58.13
+145.100.58.14 svrType="resc" rescICAT="145.100.58.13"
+```
+**NOTE:** If creating a resource server, ***rescICAT*** must be defined as the iCAT to the resource server. It can be one built by this playbook.
 
-If setup is set to 1, a server type (svrType) must be defined. Available options are:
-- "icat"
-- "resc"
-
-And lastly, if the server is a Resoruce server defined above, you must point to an iCAT with this variable:
-- rescICAT
+These host files can have as many variables as you wish to customize, see below for a comprehensive table. 
 
 ## Instructions
 1. Cone the repository
@@ -49,29 +41,35 @@ vi hosts
 ansible-playbook -i hosts build.yml
 ```
 
+
+**NOTE:** If the account requires a password for sudo commands, use the -K option as shown here:
+```
+ansible-playbook -i hosts build.yml -K
+```
+This -K flag tells ansible that you need to enter a password, and will be prompted to do so. It must be the same across all machines if used.
+
 ----
 ### Additional Information
 It is worth noting that there are in fact several variables, all customizeable if listed in the same line as the appliciable host. 
 
-These variables are all defined here, as well as in the hosts file itself:
+The default values listed here are defined in the lower portion of the hosts file.
 
-
-**Variable** | **Purpose** 
-----|----
- ansible_user=admincentos | #User to SSH as into machine
- fwd=0 | #0 is iptables, 1 is Firewalld
- serviceable=0 | #proudction level machine or no (for LDAP and such)
- setup=0 | #Setup iRODS? 0=N, 1=Y
- dbName="ICAT" | #Database Name
- dbAcnt="irods" | #Database Username
- dbPwd="irods" | #Database Password
- svrType="icat" | #iRODS Server Type
- svcAcnt="irods" | #serviceaccount
- iAcnt="rods" | #rods admin account
- iPwd="rods" | #rods admin password
- iZone="tempZone" | #irods zone
- iDBsvr="127.0.0.1" | #iRODS Database Server
- iDBname="{{dbName}}" | #iRODS Database Name
- iDBacnt="{{dbAcnt}}" | #iRODS Database Username
- iDBpwd="{{dbPwd}}" | #iRODS Database Password
- rescICAT="1.1.1.1" | #iCAT Server IP/FQDN
+**Variable** | **Purpose** | **Input Options**
+----|----|----
+ ansible_user=admincentos | #User to SSH as into machine | "any quoted string"
+ fwd=0 | #0 is iptables, 1 is Firewalld | 0 or 1
+ serviceable=0 | #proudction level machine or no (for LDAP and such) | 0 or 1
+ setup=0 | #Setup iRODS? 0=N, 1=Y | 0 or 1
+ dbName="ICAT" | #Database Name | "any quoted string"
+ dbAcnt="irods" | #Database Username | "any quoted string"
+ dbPwd="irods" | #Database Password | "any quoted string"
+ svrType="icat" | #iRODS Server Type | "icat" or "resc"
+ svcAcnt="irods" | #serviceaccount | "any quoted string"
+ iAcnt="rods" | #rods admin account | "any quoted string"
+ iPwd="rods" | #rods admin password | "any quoted string"
+ iZone="tempZone" | #irods zone | "any quoted string"
+ iDBsvr="127.0.0.1" | #iRODS Database Server | "any quoted string"
+ iDBname="{{dbName}}" | #iRODS Database Name | "any quoted string"
+ iDBacnt="{{dbAcnt}}" | #iRODS Database Username | "any quoted string"
+ iDBpwd="{{dbPwd}}" | #iRODS Database Password | "any quoted string"
+ rescICAT="1.1.1.1" | #iCAT Server IP/FQDN | "any quoted string"
