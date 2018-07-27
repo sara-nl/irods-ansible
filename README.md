@@ -59,7 +59,7 @@ The default values listed here are defined in the lower portion of the hosts fil
  ansible_user=admincentos | #User to SSH as into machine | "any quoted string"
  fwd=0 | #0 is iptables, 1 is Firewalld | 0 or 1
  serviceable=0 | #proudction level machine or no (for LDAP and such) | 0 or 1
- setup=0 | #Setup iRODS? 0=N, 1=Y | 0 or 1
+ setup=1 | #Setup iRODS? 0=N, 1=Y | 0 or 1
  dbName="ICAT" | #Database Name | "any quoted string"
  dbAcnt="irods" | #Database Username | "any quoted string"
  dbPwd="irods" | #Database Password | "any quoted string"
