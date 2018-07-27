@@ -1,7 +1,11 @@
 [common]
-#EXAMPLE
+#--------------------------------------------------------
+#EXAMPLE HOST LINES
 #192.168.1.1 setup=1 svrType="icat" 
 #192.168.1.2 setup=1 svrType="resc" rescICAT="192.168.1.1"
+#192.168.1.3 setup=1 svrType="icat" iPwd="P@$$w0rd"
+#--------------------------------------------------------
+#Enter your hosts below this line:
 
 
 
@@ -9,7 +13,8 @@
 
 
 
-
+#DO NOT MAKE CHANGES BELOW THISLINE
+#----------------------------------
 [common:vars]
 #These common variables can be overwritten on server-by-server
 #basis. Just re-define them in a line specifically associate to each host below.
