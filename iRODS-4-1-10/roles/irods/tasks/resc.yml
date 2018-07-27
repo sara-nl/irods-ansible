@@ -3,10 +3,11 @@
 - name: downloading the iRODS Resource plugin
   get_url: 
     url: ftp://ftp.renci.org/pub/irods/releases/4.1.10/centos7/irods-resource-4.1.10-centos7-x86_64.rpm 
-    dest: /home/ansible/irods-resc.rpm
+    dest: "{{ansible_user_dir}}/irods-resc.rpm"
 #installing the iRODS Rescource Package
 - name: Installing the iRODS Resource Package
-  yum: name=/home/ansible/irods-resc.rpm
+  yum:
+    name: "{{ansible_user_dir}}/irods-resc.rpm"
 #running the setup_irods.sh with proper inputs, if iRODS is not already configured
 #Notes about this module:
 #It reads left to right, matching strings up to the ":"

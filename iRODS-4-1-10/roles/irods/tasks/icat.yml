@@ -2,21 +2,23 @@
 - name: downloading iRODS ICAT package
   get_url: 
     url: ftp://ftp.renci.org/pub/irods/releases/4.1.10/centos7/irods-icat-4.1.10-centos7-x86_64.rpm 
-    dest: /home/ansible/irods-icat.rpm
+    dest: "{{ansible_user_dir}}/irods-icat.rpm"
 
 #downloading the iCAT database plugin
 - name: downloading the ICAT database plugin
   get_url: 
     url: ftp://ftp.renci.org/pub/irods/releases/4.1.10/centos7/irods-database-plugin-postgres-1.10-centos7-x86_64.rpm 
-    dest: /home/ansible/irods-db-plugin.rpm
+    dest: "{{ansible_user_dir}}/irods-db-plugin.rpm"
 
 #installing the iRODS ICAT
 - name: Installing the ICAT Package
-  yum: name=/home/ansible/irods-icat.rpm
+  yum: 
+    name: "{{ansible_user_dir}}/irods-icat.rpm"
 
 #Installing the DB plugin
 - name: Installing the Database Plugin
-  yum: name=/home/ansible/irods-db-plugin.rpm
+  yum: 
+    name: "{{ansible_user_dir}}/irods-db-plugin.rpm"
 
 #running the setup_irods.sh with proper inputs, if iRODS is not already configured
 #Notes about this module:
