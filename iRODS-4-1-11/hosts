@@ -7,8 +7,11 @@
 #--------------------------------------------------------
 #Enter your hosts below this line:
 
+145.100.58.125
+145.100.58.177	svrType="resc"	rescICAT="145.100.58.125"
 145.100.58.93
-145.100.58.125	svrType="resc"	rescICAT="145.100.58.93"
+145.100.57.142	svrType="resc"	rescICAT="145.100.58.93"
+145.100.57.143	svrType="resc"	rescICAT="145.100.58.93"
 
 
 
@@ -41,9 +44,17 @@ dbName="ICAT"      #Database Name
 dbAcnt="irods"     #Database Username
 dbPwd="irods"      #Database Password
 
+#iRODS 4.1.x packing sources
+icatPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-icat-4.1.11-centos7-x86_64.rpm"
+dbPluginPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-database-plugin-postgres-1.11-centos7-x86_64.rpm"
+rescPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-resource-4.1.11-centos7-x86_64.rpm"
+
 #Default iRODS setup info
 svrType="icat"       #iRODS Server Type
 svcAcnt="irods"      #serviceaccount
+zoneKey=""           #Zone Key
+negKey=""            #Negotiation Key
+ctrlKey=""           #Control Play Key
 iAcnt="rods"         #rods admin account
 iPwd="rods"          #rods admin password
 iZone="tempZone"     #irods zone

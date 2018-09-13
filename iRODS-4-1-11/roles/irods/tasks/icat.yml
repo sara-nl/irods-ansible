@@ -1,13 +1,13 @@
 #downloading the iRODS iCAT package
 - name: downloading iRODS ICAT package
   get_url: 
-    url: ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-icat-4.1.11-centos7-x86_64.rpm 
+    url: "{{icatPkg}}"
     dest: "{{ansible_user_dir}}/irods-icat.rpm"
 
 #downloading the iCAT database plugin
 - name: downloading the ICAT database plugin
   get_url: 
-    url: ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-database-plugin-postgres-1.11-centos7-x86_64.rpm 
+    url: "{{dbPluginPkg}}"
     dest: "{{ansible_user_dir}}/irods-db-plugin.rpm"
 
 #installing the iRODS ICAT
@@ -43,10 +43,10 @@
       iRODS port range \(begin\) \[.*\]: "20000"
       iRODS port range \(end\) \[.*\]: "20199"
       iRODS Vault directory \[.*\]: "/{{svrName}}_Vault"
-      iRODS server's zone_key \[.*\]: ""
-      iRODS server's negotiation_key \[.*\]: ""
+      iRODS server's zone_key \[.*\]: "{{zoneKey}}"
+      iRODS server's negotiation_key \[.*\]: "{{negKey}}"
       Control Plane port \[.*\]: "1248"
-      Control Plane key \[.*\]: ""
+      Control Plane key \[.*\]: "{{ctrlKey}}"
       Schema Validation Base URI \(or 'off'\) \[.*\]: 'off'
       iRODS server's administrator username \[.*\]: "{{iAcnt}}"
       iRODS server's administrator password: "{{iPwd}}"
