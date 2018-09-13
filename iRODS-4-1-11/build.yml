@@ -1,10 +1,7 @@
 ---
 - name: AnsiBuild v0.1
   hosts: all
-#  remote_user: admincentos
   become: true
-  vars:
-    svrName: "{{ansible_host}}"
   roles:
-#  - common
+  - common
   - irods
