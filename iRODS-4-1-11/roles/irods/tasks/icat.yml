@@ -1,13 +1,13 @@
 #downloading the iRODS iCAT package
 - name: downloading iRODS ICAT package
   get_url: 
-    url: ftp://ftp.renci.org/pub/irods/releases/4.1.10/centos7/irods-icat-4.1.10-centos7-x86_64.rpm 
+    url: ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-icat-4.1.11-centos7-x86_64.rpm 
     dest: "{{ansible_user_dir}}/irods-icat.rpm"
 
 #downloading the iCAT database plugin
 - name: downloading the ICAT database plugin
   get_url: 
-    url: ftp://ftp.renci.org/pub/irods/releases/4.1.10/centos7/irods-database-plugin-postgres-1.10-centos7-x86_64.rpm 
+    url: ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-database-plugin-postgres-1.11-centos7-x86_64.rpm 
     dest: "{{ansible_user_dir}}/irods-db-plugin.rpm"
 
 #installing the iRODS ICAT
