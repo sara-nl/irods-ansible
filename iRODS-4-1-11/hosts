@@ -7,10 +7,11 @@
 #--------------------------------------------------------
 #Enter your hosts below this line:
 
-145.100.58.13  
-145.100.58.19 svrType="resc" rescICAT="145.100.58.13"
-145.100.58.243 svrType="resc" rescICAT="145.100.58.13"
-
+145.100.57.226
+145.100.57.228	svrType="resc"	rescICAT="145.100.57.226"
+145.100.57.229
+145.100.57.230	svrType="resc"	rescICAT="145.100.57.229"
+145.100.57.231	svrType="resc"	rescICAT="145.100.57.229"
 
 
 
@@ -21,6 +22,9 @@
 [common:vars]
 #These common variables can be overwritten on server-by-server
 #basis. Just re-define them in a line specifically associate to each host below.
+
+#The hostname to set to. Default is ansible_hostname or IP entered above.
+svrName="{{ansible_default_ipv4.address | regex_replace('\\.','_')}}"
 
 #The ansible user to ssh as
 ansible_user=admincentos
@@ -40,9 +44,17 @@ dbName="ICAT"      #Database Name
 dbAcnt="irods"     #Database Username
 dbPwd="irods"      #Database Password
 
+#iRODS 4.1.x packing sources
+icatPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-icat-4.1.11-centos7-x86_64.rpm"
+dbPluginPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-database-plugin-postgres-1.11-centos7-x86_64.rpm"
+rescPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-resource-4.1.11-centos7-x86_64.rpm"
+
 #Default iRODS setup info
 svrType="icat"       #iRODS Server Type
 svcAcnt="irods"      #serviceaccount
+zoneKey=""           #Zone Key
+negKey=""            #Negotiation Key
+ctrlKey=""           #Control Play Key
 iAcnt="rods"         #rods admin account
 iPwd="rods"          #rods admin password
 iZone="tempZone"     #irods zone

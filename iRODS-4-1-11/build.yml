@@ -1,0 +1,7 @@
+---
+- name: AnsiBuild v0.1
+  hosts: all
+  become: true
+  roles:
+  - common
+  - irods

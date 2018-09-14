@@ -36,3 +36,12 @@
 #Icinga for live machines
 - include: icinga.yml
   when: serviceable == 1
+
+#Add a self-fulfilling line in /etc/hosts
+- name: Populating /etc/hosts with all currently applied hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{item}}	{{item | regex_replace('\\.','_')}}"
+    state: present
+  with_items: "{{groups.all}}"
+
