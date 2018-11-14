@@ -1,24 +1,11 @@
-#downloading the iRODS iCAT package
-- name: downloading iRODS ICAT package
-  get_url: 
-    url: "{{icatPkg}}"
-    dest: "{{ansible_user_dir}}/irods-icat.rpm"
-
-#downloading the iCAT database plugin
-- name: downloading the ICAT database plugin
-  get_url: 
-    url: "{{dbPluginPkg}}"
-    dest: "{{ansible_user_dir}}/irods-db-plugin.rpm"
-
 #installing the iRODS ICAT
-- name: Installing the ICAT Package
+- name: Installing the iRODS Package(s)
   yum: 
-    name: "{{ansible_user_dir}}/irods-icat.rpm"
-
-#Installing the DB plugin
-- name: Installing the Database Plugin
-  yum: 
-    name: "{{ansible_user_dir}}/irods-db-plugin.rpm"
+    name: "{{ item }}"
+    state: present
+  loop:
+  - "{{irodsPkg}}"
+  - "{{dbPluginPkg}}"
 
 #running the setup_irods.sh with proper inputs, if iRODS is not already configured
 #Notes about this module:
@@ -29,33 +16,36 @@
 #(?i)TEXTGOESHERE before a line will ignore case.
 #So in short:
 #(?i)this is my query, ignoring case \[and escaped properly\] : "THIS IS MY RESPONSE, on the other side of the colon"
-- name: run iRODS 4.1 setup script
+- name: run iRODS 4.2 setup script
+  become: true
   expect:
-    command: /bin/sh /var/lib/irods/packaging/setup_irods.sh
-    #Our comment to see if the iRODS Vault exists already. If it does, this script is skipped.
-    creates: "/{{svrName}}Vault"
+    creates: "/etc/irods/server_config.json"
+    command: "/bin/python /var/lib/irods/scripts/setup_irods.py"
     #The series of expected prompts and responses.
     responses:
-      iRODS service account name \[.*\]: "{{svcAcnt}}"
-      iRODS service group name \[.*\]: "{{svcAcnt}}"
+      iRODS user \[.*\]: "{{svcAcnt}}"
+      iRODS group \[.*\]: "{{svcAcnt}}"
+      Please select a number or choose 0 to enter a new value \[.*\]: "1"
+      ODBC driver for postgres \[.*\]: "PostgreSQL"
+      Database server's hostname or IP address \[.*\]: "{{iDBsvr}}"
+      Database server's port \[.*\]: "5432"
+      Database name \[.*\]: "{{iDBname}}"
+      Database username \[.*\]: "{{iDBacnt}}"
+      Please confirm \[.*\]: "yes"
+      Database password: "{{iDBpwd}}"
+      Salt for passwords stored in the database: "pretzels"
       iRODS server's zone name \[.*\]: "{{iZone}}"
       iRODS server's port \[.*\]: "1247"
       iRODS port range \(begin\) \[.*\]: "20000"
       iRODS port range \(end\) \[.*\]: "20199"
-      iRODS Vault directory \[.*\]: "/{{svrName}}_Vault"
-      iRODS server's zone_key \[.*\]: "{{zoneKey}}"
-      iRODS server's negotiation_key \[.*\]: "{{negKey}}"
       Control Plane port \[.*\]: "1248"
-      Control Plane key \[.*\]: "{{ctrlKey}}"
-      Schema Validation Base URI \(or 'off'\) \[.*\]: 'off'
+      Schema Validation Base URI \(or off\) \[.*\]: "file:///var/lib/irods/configuration_schemas"
       iRODS server's administrator username \[.*\]: "{{iAcnt}}"
+      #Another please confirm, matched above
+      iRODS server's zone key: "{{zoneKey}}"
+      iRODS server's negotiation key \(32 characters\): "{{negKey}}"
+      Control Plane key \(32 characters\): "{{ctrlKey}}"
       iRODS server's administrator password: "{{iPwd}}"
-      Please confirm these settings \[.*\]: "yes"
-      Database server's hostname or IP address: "{{iDBsvr}}"
-      Database server's port \[.*\]: "5432"
-      Database name \[.*\]: "{{iDBname}}"
-      Database username \[.*\]: "{{iDBacnt}}"
-      Database password: "{{iDBpwd}}"
-      # Not needed as this question and response have already been defined:
-      # Please confirm these settings \[.*\]: "yes"
+      iRODS Vault directory \[.*\]: "{{iVault}}"
     echo: yes
+

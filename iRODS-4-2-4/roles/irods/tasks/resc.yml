@@ -1,13 +1,12 @@
 ---
-#downloading the Resource Package
-- name: downloading the iRODS Resource plugin
-  get_url: 
-    url: "{{rescPkg}}"
-    dest: "{{ansible_user_dir}}/irods-resc.rpm"
 #installing the iRODS Rescource Package
-- name: Installing the iRODS Resource Package
+##installing the iRODS ICAT
+- name: Installing the iRODS Package(s)
   yum:
-    name: "{{ansible_user_dir}}/irods-resc.rpm"
+    name: "{{ item }}"
+    state: present
+  loop:
+  - "{{irodsPkg}}"
 #running the setup_irods.sh with proper inputs, if iRODS is not already configured
 #Notes about this module:
 #It reads left to right, matching strings up to the ":"
@@ -17,28 +16,28 @@
 #(?i)TEXTGOESHERE before a line will ignore case.
 #So in short:
 #(?i)this is my query, ignoring case \[and escaped properly\] : "THIS IS MY RESPONSE, on the other side of the colon"
-- name: run iRODS 4.1 setup script
-  #Our comment to see if the iRODS Vault exists. If it does, it will not run the script.
-  #The sequence of expected prompts and responses
+- name: run iRODS 4.2 setup script
+  become: true
   expect:
-    command: /bin/sh /var/lib/irods/packaging/setup_irods.sh
-    creates: "/{{svrName}}Vault"
+    creates: "/etc/irods/server_config.json"
+    command: "/bin/python /var/lib/irods/scripts/setup_irods.py"
+    #The series of expected prompts and responses.
     responses:
-      iRODS service account name \[.*\]: "{{svcAcnt}}"
-      iRODS service group name \[.*\]: "{{svcAcnt}}"
+      iRODS user \[.*\]: "{{svcAcnt}}"
+      iRODS group \[.*\]: "{{svcAcnt}}"
+      Please select a number or choose 0 to enter a new value \[.*\]: "2"
       iRODS server's zone name \[.*\]: "{{iZone}}"
+      iRODS catalog \(ICAT\) host: "{{rescICAT}}"
       iRODS server's port \[.*\]: "1247"
       iRODS port range \(begin\) \[.*\]: "20000"
       iRODS port range \(end\) \[.*\]: "20199"
-      iRODS Vault directory \[.*\]: "/{{svrName}}Vault"
-      iRODS server's zone_key \[.*\]: "{{zoneKey}}"
-      iRODS server's negotiation_key \[.*\]: "{{negKey}}"
       Control Plane port \[.*\]: "1248"
-      Control Plane key \[.*\]: "{{ctrlKey}}"
-      Schema Validation Base URI \(or 'off'\) \[.*\]: 'off'
+      Schema Validation Base URI \(or off\) \[.*\]: "file:///var/lib/irods/configuration_schemas"
       iRODS server's administrator username \[.*\]: "{{iAcnt}}"
-      Please confirm these settings \[.*\]: "yes"
-      iCAT server's hostname: "{{rescICAT}}"
-      iCAT server's ZoneName: "{{iZone}}"
-      iCAT server's admin password: "{{iPwd}}"
+      Please confirm \[.*\]: "yes"
+      iRODS server's zone key: "{{zoneKey}}"
+      iRODS server's negotiation key \(32 characters\): "{{negKey}}"
+      Control Plane key \(32 characters\): "{{ctrlKey}}"
+      iRODS server's administrator password: "{{iPwd}}"
+      iRODS Vault directory \[.*\]: "{{iVault}}"
     echo: yes

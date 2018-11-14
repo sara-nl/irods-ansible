@@ -11,10 +11,6 @@
    name: "{{svrName}}"
 
 
-#Sets up ldap admins for production servers
-- include: prodUsers.yml
-  when: serviceable == 1
-
 #Using Yum 
 - name: Update All
   yum: 
@@ -32,10 +28,6 @@
 - include: iptables.yml
   when: fwd == 0
 
-
-#Icinga for live machines
-- include: icinga.yml
-  when: serviceable == 1
 
 #Add a self-fulfilling line in /etc/hosts
 - name: Populating /etc/hosts with all currently applied hosts
