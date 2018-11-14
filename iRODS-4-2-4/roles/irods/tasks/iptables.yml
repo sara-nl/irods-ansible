@@ -1,0 +1,24 @@
+---
+- name: IPTables remove Deny all
+  iptables: 
+    chain: INPUT
+    jump: DROP
+    state: absent
+- name: IPTables INPUT 1247 appended
+  iptables: 
+    chain: INPUT 
+    protocol: TCP 
+    destination_port: 1247 
+    jump: ACCEPT
+- name: IPTables INPUT 20000:20199 appended
+  iptables: 
+    chain: INPUT 
+    protocol: TCP 
+    destination_port: 20000:20199 
+    jump: ACCEPT
+- name: IPTABLES INPUT Default Drop appended
+  iptables: 
+    chain: INPUT 
+    jump: DROP
+- name: IPTables Saved
+  command: "/sbin/service iptables save"

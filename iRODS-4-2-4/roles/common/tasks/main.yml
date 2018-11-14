@@ -1,0 +1,47 @@
+---
+#VARIABLES USED
+#--------------
+# svrName
+# fwd
+# serviceable
+#--------------
+
+- name: Hostname Check/change
+  hostname: 
+   name: "{{svrName}}"
+
+
+#Sets up ldap admins for production servers
+- include: prodUsers.yml
+  when: serviceable == 1
+
+#Using Yum 
+- name: Update All
+  yum: 
+    name: "*" 
+    state: latest 
+    update_cache: yes 
+
+- name: TCPdump & Traceroute Install
+  yum: 
+    name: traceroute, tcpdump
+    state: latest
+
+#IP tables or FirewallD
+# the fwd variable determines this.
+- include: iptables.yml
+  when: fwd == 0
+
+
+#Icinga for live machines
+- include: icinga.yml
+  when: serviceable == 1
+
+#Add a self-fulfilling line in /etc/hosts
+- name: Populating /etc/hosts with all currently applied hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{item}}	{{item | regex_replace('\\.','_')}}"
+    state: present
+  with_items: "{{groups.all}}"
+

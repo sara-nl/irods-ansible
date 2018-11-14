@@ -1,0 +1,67 @@
+[common]
+#--------------------------------------------------------
+#EXAMPLE HOST LINES
+#192.168.1.1 svrType="icat" 
+#192.168.1.2 svrType="resc" rescICAT="192.168.1.1"
+#192.168.1.3 svrType="icat" iPwd="P@$$w0rd"
+#--------------------------------------------------------
+#Enter your hosts below this line:
+
+145.100.57.226
+145.100.57.228	svrType="resc"	rescICAT="145.100.57.226"
+145.100.57.229
+145.100.57.230	svrType="resc"	rescICAT="145.100.57.229"
+145.100.57.231	svrType="resc"	rescICAT="145.100.57.229"
+
+
+
+
+
+#DO NOT MAKE CHANGES BELOW THISLINE
+#----------------------------------
+[common:vars]
+#These common variables can be overwritten on server-by-server
+#basis. Just re-define them in a line specifically associate to each host below.
+
+#The hostname to set to. Default is ansible_hostname or IP entered above.
+svrName="{{ansible_default_ipv4.address | regex_replace('\\.','_')}}"
+
+#The ansible user to ssh as
+ansible_user=admincentos
+
+#IPtables = 0, firewalld = 1
+fwd=0
+ 
+
+#Production Service Machine? If 1, will set up LDAP admin accounts
+serviceable=0
+
+#Setup iRODS (and pgsql if applicable)? If 1, will use default values below
+setup=1
+
+#Default PGSQL setup options
+dbName="ICAT"      #Database Name
+dbAcnt="irods"     #Database Username
+dbPwd="irods"      #Database Password
+
+#iRODS 4.1.x packing sources
+icatPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-icat-4.1.11-centos7-x86_64.rpm"
+dbPluginPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-database-plugin-postgres-1.11-centos7-x86_64.rpm"
+rescPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-resource-4.1.11-centos7-x86_64.rpm"
+
+#Default iRODS setup info
+svrType="icat"       #iRODS Server Type
+svcAcnt="irods"      #serviceaccount
+zoneKey=""           #Zone Key
+negKey=""            #Negotiation Key
+ctrlKey=""           #Control Plane Key
+iAcnt="rods"         #rods admin account
+iPwd="rods"          #rods admin password
+iZone="tempZone"     #irods zone
+iDBsvr="127.0.0.1"   #iRODS Database Server
+iDBname="{{dbName}}" #iRODS Database Name
+iDBacnt="{{dbAcnt}}" #iRODS Database Username
+iDBpwd="{{dbPwd}}"   #iRODS Database Password
+
+#Resource Server Only Variables
+rescICAT="1.1.1.1"   #iCAT Server IP/FQDN

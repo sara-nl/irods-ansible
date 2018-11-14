@@ -1,0 +1,20 @@
+#FIREWALLD CONFIGS
+  - name: FirewallD TCP1247 for iRODS
+    firewalld:
+     rich_rule: 'rule port port=1247 protocol=tcp accept'
+     permanent: true
+     zone: "{{fwz}}"
+     state: enabled
+     immediate: true
+    become: true
+    when: fw == 1
+
+  - name: FirewallD TCP20000-20199 for iRODS
+    firewalld:
+     rich_rule: 'rule port port=20000-20199 protocol=tcp accept'
+     permanent: true
+     zone: "{{fwz}}"
+     state: enabled
+     immediate: true
+    become: true
+    when: fw == 1
