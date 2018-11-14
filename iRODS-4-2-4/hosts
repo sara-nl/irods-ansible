@@ -1,0 +1,62 @@
+[common]
+#--------------------------------------------------------
+#EXAMPLE HOST LINES
+#192.168.1.1 svrType="icat" 
+#192.168.1.2 svrType="resc" rescICAT="192.168.1.1"
+#192.168.1.3 svrType="icat" iPwd="P@$$w0rd"
+#--------------------------------------------------------
+#Enter your hosts below this line:
+
+145.100.57.71
+145.100.57.72 svrType="resc" rescICAT="145.100.57.71"
+145.100.57.73
+145.100.57.74 svrType="resc" rescICAT="145.100.57.73"
+145.100.57.75 svrType="resc" rescICAT="145.100.57.73"
+
+
+
+
+#DO NOT MAKE CHANGES BELOW THISLINE
+#----------------------------------
+[common:vars]
+#These common variables can be overwritten on server-by-server
+#basis. Just re-define them in a line specifically associate to each host below.
+
+#The hostname to set to. Default is ansible_hostname or IP entered above.
+svrName="{{ansible_default_ipv4.address | regex_replace('\\.','_')}}"
+
+#The ansible user to ssh as
+ansible_user=admincentos
+
+#IPtables = 0, firewalld = 1
+fwd=0
+ 
+#Setup iRODS (and pgsql if applicable)? If 1, will use default values below
+setup=1
+
+#Default PGSQL setup options
+dbName="ICAT"      #Database Name
+dbAcnt="irods"     #Database Username
+dbPwd="irods"      #Database Password
+
+#iRODS 4.1.x packing sources
+irodsPkg="https://packages.irods.org/yum/pool/centos7/x86_64/irods-server-4.2.4-1.x86_64.rpm"
+dbPluginPkg="https://packages.irods.org/yum/pool/centos7/x86_64/irods-database-plugin-postgres-4.2.4-1.x86_64.rpm"
+
+#Default iRODS setup info
+svrType="icat"                                       #iRODS Server Type
+svcAcnt="irods"                                      #serviceaccount
+zoneKey="zoneKey"                                    #Zone Key
+negKey="12345678901234567890123456789012"            #Negotiation Key
+ctrlKey="12345678901234567890123456789012"           #Control Plane Key
+iAcnt="rods"                                         #rods admin account
+iPwd="rods"                                          #rods admin password
+iZone="tempZone"                                     #irods zone
+iVault=""                                            #iRODS resource vault path
+iDBsvr="127.0.0.1"                                   #iRODS Database Server
+iDBname="{{dbName}}"                                 #iRODS Database Name
+iDBacnt="{{dbAcnt}}"                                 #iRODS Database Username
+iDBpwd="{{dbPwd}}"                                   #iRODS Database Password
+
+#Resource Server Only Variables
+rescICAT="1.1.1.1"   #iCAT Server IP/FQDN

@@ -1,0 +1,44 @@
+---
+#---------------------------------------
+#These are all iRODS related tasks
+#---------------------------------------
+
+#Adding the iRODS Repo Key
+- name: Adding iRODS Repo Key
+  rpm_key:
+    state: present
+    key: https://packages.irods.org/irods-signing-key.asc
+
+#Adding the iRODS Repo
+- name: Adding iRODS Repo
+  yum_repository:
+    state: present
+    name: "renci-irods.yum.repo"
+    baseurl: "https://packages.irods.org/yum/pool/centos$releasever/$basearch"
+    enabled: yes
+    gpgcheck: yes
+    repo_gpgcheck: yes
+    gpgkey: "https://packages.irods.org/irods-signing-key.asc"
+    description: "RENCI iRODS Repository"
+
+#Installing PIP
+- name: install pip
+  yum: 
+    name: python2-pip
+    state: present
+#Installing Python Expect plugin
+- name: install python expect plugin
+  pip: 
+    name: pexpect
+    
+#IP tables or FirewallD
+# the fwd variable determines this.
+- include: iptables.yml
+  when: fwd == 0
+
+- include: pgsql.yml
+  when: svrType == "icat"
+- include: icat.yml
+  when: svrType == "icat"
+- include: resc.yml
+  when: svrType == "resc"
