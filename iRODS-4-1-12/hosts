@@ -45,9 +45,9 @@ dbAcnt="irods"     #Database Username
 dbPwd="irods"      #Database Password
 
 #iRODS 4.1.x packing sources
-icatPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-icat-4.1.11-centos7-x86_64.rpm"
-dbPluginPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-database-plugin-postgres-1.11-centos7-x86_64.rpm"
-rescPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.11/centos7/irods-resource-4.1.11-centos7-x86_64.rpm"
+icatPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.12/centos7/irods-icat-4.1.12-centos7-x86_64.rpm"
+dbPluginPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.12/centos7/irods-database-plugin-postgres-1.12-centos7-x86_64.rpm"
+rescPkg="ftp://ftp.renci.org/pub/irods/releases/4.1.12/centos7/irods-resource-4.1.12-centos7-x86_64.rpm"
 
 #Default iRODS setup info
 svrType="icat"       #iRODS Server Type
