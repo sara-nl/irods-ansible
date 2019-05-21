@@ -7,11 +7,10 @@
 #--------------------------------------------------------
 #Enter your hosts below this line:
 
-145.100.57.71
-145.100.57.72 svrType="resc" rescICAT="145.100.57.71"
-145.100.57.73
-145.100.57.74 svrType="resc" rescICAT="145.100.57.73"
-145.100.57.75 svrType="resc" rescICAT="145.100.57.73"
+145.100.57.45
+145.100.57.49
+145.100.57.50
+#145.100.57.209 svrType="resc" rescICAT="145.100.57.202"
 
 
 
@@ -39,9 +38,11 @@ dbName="ICAT"      #Database Name
 dbAcnt="irods"     #Database Username
 dbPwd="irods"      #Database Password
 
-#iRODS 4.1.x packing sources
-irodsPkg="https://packages.irods.org/yum/pool/centos7/x86_64/irods-server-4.2.4-1.x86_64.rpm"
-dbPluginPkg="https://packages.irods.org/yum/pool/centos7/x86_64/irods-database-plugin-postgres-4.2.4-1.x86_64.rpm"
+#iRODS 4.2.x package
+#These can also be a URL to a specific package, if you do not want to use the latest.
+#This ansible playbook sets up the PostgreSQL version of a database.
+irodsPkg="irods-server"
+dbPluginPkg="irods-database-plugin-postgres"
 
 #Default iRODS setup info
 svrType="icat"                                       #iRODS Server Type
